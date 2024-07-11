@@ -27,7 +27,7 @@ import lombok.ToString;
 
 @Entity
 @Table(name = "mascotas")
-public class mascotas {
+public class Mascotas {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
