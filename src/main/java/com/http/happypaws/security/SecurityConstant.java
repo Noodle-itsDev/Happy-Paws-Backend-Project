@@ -1,7 +1,7 @@
 package com.http.happypaws.security;
 
 
-public class ConstantesSeguridad {
+public class SecurityConstant {
 	
 	//Defino constantes de seguridad
 	public static final long JWT_EXPIRATION_TOKEN = 300000000;
