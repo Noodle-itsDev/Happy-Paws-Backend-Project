@@ -1,11 +1,15 @@
 package com.http.happypaws.models;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 
@@ -68,14 +72,17 @@ public class Protectoras {
 	@Column(name ="is_verified")
 	private Boolean isVerified;
 	
+	@ManyToMany(mappedBy = "protectoras")
+	private List<Usuarios> usuarios = new ArrayList<>();
+	
 	public Protectoras() {
 		
 	}
 
 	public Protectoras(Long idProtectora, Date createdAt, Date updatedAt, Date deletedAt, String cif, String nombre,
 			String email, int extension, int telefono, String provincia, String poblacion, String ciudad, String calle,
-			String numero, int codigoPostal, Boolean isVerified) {
-		
+			String numero, int codigoPostal, Boolean isVerified, List<Usuarios> usuarios) {
+		super();
 		this.idProtectora = idProtectora;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
@@ -92,6 +99,7 @@ public class Protectoras {
 		this.numero = numero;
 		this.codigoPostal = codigoPostal;
 		this.isVerified = isVerified;
+		this.usuarios = usuarios;
 	}
 
 	public Long getIdProtectora() {
@@ -221,6 +229,15 @@ public class Protectoras {
 	public void setIsVerified(Boolean isVerified) {
 		this.isVerified = isVerified;
 	}
+
+	public List<Usuarios> getUsuarios() {
+		return usuarios;
+	}
+
+	public void setUsuarios(List<Usuarios> usuarios) {
+		this.usuarios = usuarios;
+	}
+	
 	
 	
 }

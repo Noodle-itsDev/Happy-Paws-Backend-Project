@@ -1,11 +1,18 @@
 package com.http.happypaws.models;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -89,11 +96,37 @@ public class Usuarios {
 	@Column(name = "is_super_admin")
 	private Boolean isSuperAdmin;
 	
+	
+	//Muchos usuarios pueden estar en múltiples roles
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(
+			name = "usuarios_roles",
+			joinColumns = @JoinColumn(name = "id_usuario", referencedColumnName = "usuario_id"),
+			inverseJoinColumns = @JoinColumn(name = "id_role", referencedColumnName = "role_id")
+			
+			)
+	private List<Roles> roles = new ArrayList<>();
+	
+	
+	//Muchos usuarios pueden estar en múltiples protectoras
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(
+			name = "usuarios_protectoras",
+			joinColumns = @JoinColumn(name = "id_usuario", referencedColumnName = "usuario_id"),
+			inverseJoinColumns = @JoinColumn(name = "id_protectora", referencedColumnName = "protectora_id")
+			
+			)
+	private List<Protectoras> protectoras = new ArrayList<>();
+	
+	
+	
 	public Usuarios() {};
 
 	public Usuarios(Long idUsuario, String username, String password, Date createdAt, Date updatedAt, Date deletedAt,
 			String nombre, String apellidos, String dni, int extension, int telefono, String email, String provincia,
-			String población, String ciudad, String calle, String numero, int codigoPostal, Boolean isSuperAdmin) {
+			String población, String ciudad, String calle, String numero, int codigoPostal, Boolean isSuperAdmin,
+			List<Roles> roles, List<Protectoras> protectoras) {
+		super();
 		this.idUsuario = idUsuario;
 		this.username = username;
 		this.password = password;
@@ -113,7 +146,11 @@ public class Usuarios {
 		this.numero = numero;
 		this.codigoPostal = codigoPostal;
 		this.isSuperAdmin = isSuperAdmin;
+		this.roles = roles;
+		this.protectoras = protectoras;
 	}
+
+
 
 	public Long getIdUsuario() {
 		return idUsuario;
@@ -266,7 +303,21 @@ public class Usuarios {
 	public void setIsSuperAdmin(Boolean isSuperAdmin) {
 		this.isSuperAdmin = isSuperAdmin;
 	}
-	
-	
-	
+
+	public List<Roles> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<Roles> roles) {
+		this.roles = roles;
+	}
+
+	public List<Protectoras> getProtectoras() {
+		return protectoras;
+	}
+
+	public void setProtectoras(List<Protectoras> protectoras) {
+		this.protectoras = protectoras;
+	}
+		
 }
