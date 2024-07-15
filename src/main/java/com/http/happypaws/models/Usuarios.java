@@ -3,7 +3,6 @@ package com.http.happypaws.models;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -14,19 +13,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 
-
-@NoArgsConstructor 
-//Genero constructor vacío
-
-@AllArgsConstructor 
-//Genero contructor con todos los atributos
-
-@ToString
-//Genero método toString con lombok
 
 @Entity
 //Le indico a esta clase que es una entidad
