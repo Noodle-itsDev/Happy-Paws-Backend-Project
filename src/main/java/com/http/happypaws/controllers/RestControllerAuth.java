@@ -33,7 +33,6 @@ public class RestControllerAuth {
     private JwtGenerator jwtGenerator;
 
     @Autowired
-
     public RestControllerAuth(AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder, IRolesRepository rolesRepository, IUsuariosRepository usuariosRepository, JwtGenerator jwtGenerator) {
         this.authenticationManager = authenticationManager;
         this.passwordEncoder = passwordEncoder;
