@@ -1,5 +1,6 @@
 package com.http.happypaws.controllers;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import com.http.happypaws.dtos.AuthResponseDTO;
 import com.http.happypaws.dtos.LoginDTO;
 import com.http.happypaws.dtos.RegisterDTO;
@@ -20,11 +21,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+import java.util.Optional;
 import java.util.Collections;
 
 @RestController
 @RequestMapping("/api/auth/")
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class RestControllerAuth {
     private AuthenticationManager authenticationManager;
     private PasswordEncoder passwordEncoder;
@@ -46,14 +48,38 @@ public class RestControllerAuth {
         if (usuariosRepository.existsByUsername(registerDTO.getUsername())) {
             return new ResponseEntity<>("el usuario ya existe, intenta con otro", HttpStatus.BAD_REQUEST);
         }
+    
         Usuarios usuarios = new Usuarios();
+        /**
         usuarios.setUsername(registerDTO.getUsername());
-        usuarios.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
-        Roles roles = rolesRepository.findRoleByName("USER").get();
-        usuarios.setRoles(Collections.singletonList(roles));
-        usuariosRepository.save(usuarios);
-        return new ResponseEntity<>("Registro de usuario exitoso", HttpStatus.OK);
+        usuarios.setPassword(passwordEncoder.encode(registerDTO.getPassword())); */
+        
+            usuarios.setUsername(registerDTO.getUsername());
+            usuarios.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
+            usuarios.setNombre(registerDTO.getNombre());
+            usuarios.setApellidos(registerDTO.getApellidos());
+            usuarios.setDni(registerDTO.getDni());
+            usuarios.setExtension(registerDTO.getExtension());
+            usuarios.setTelefono(registerDTO.getTelefono());
+            usuarios.setEmail(registerDTO.getEmail());
+            usuarios.setProvincia(registerDTO.getProvincia());
+            usuarios.setPoblación(registerDTO.getPoblacion());
+            usuarios.setCiudad(registerDTO.getCiudad());
+            usuarios.setCalle(registerDTO.getCalle());
+            usuarios.setNumero(registerDTO.getNumero());
+            usuarios.setCodigoPostal(registerDTO.getCodigoPostal());
+        
+    
+        Optional<Roles> rolesOptional = rolesRepository.findRoleByName("Voluntario");
+        if (rolesOptional.isPresent()) {
+            usuarios.setRoles(Collections.singletonList(rolesOptional.get()));
+            usuariosRepository.save(usuarios);
+            return new ResponseEntity<>("Registro de usuario exitoso", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("No se encontró el rol de usuario", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
+
 
     //Método para poder guardar usuarios de tipo ADMIN
     @PostMapping("registerAdm")

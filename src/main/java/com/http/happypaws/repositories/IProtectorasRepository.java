@@ -13,5 +13,5 @@ public interface IProtectorasRepository extends JpaRepository<Protectoras, Long>
 	Optional<Protectoras> findProtectoraByCif(String cif);
 	
 	//Se busca a una protectora existente o no según el nombre
-	Optional<Protectoras> findProtectoraByName(String name);
+	//Optional<Protectoras> findProtectoraByName(String nombre);
 }
