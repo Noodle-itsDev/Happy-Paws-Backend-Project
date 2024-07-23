@@ -51,8 +51,9 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests()
                 .requestMatchers("api/auth/**").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/protectoras/create").hasAuthority("ADMIN")
-                .requestMatchers(HttpMethod.GET, "/api/protectoras/list").hasAnyAuthority("USER")
+                //.requestMatchers("api/protectora/all").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/protectora/create").hasAnyAuthority("Gestor", "Voluntario")
+                .requestMatchers(HttpMethod.GET, "/api/protectora/all").hasAnyAuthority("Gestor", "Voluntario")
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic();
@@ -60,6 +61,5 @@ public class SecurityConfig {
                 return http.build();
                 		
     }
-    
 	
 }

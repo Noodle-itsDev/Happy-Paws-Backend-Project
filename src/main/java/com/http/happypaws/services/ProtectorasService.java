@@ -2,15 +2,12 @@ package com.http.happypaws.services;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.http.happypaws.models.Protectoras;
 import com.http.happypaws.repositories.IProtectorasRepository;
 
 @Service
-
 public class ProtectorasService {
 	private IProtectorasRepository iProtectorasRepository;
 

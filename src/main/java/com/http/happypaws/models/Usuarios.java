@@ -85,7 +85,7 @@ public class Usuarios {
 	
 	
 	//Muchos usuarios pueden estar en múltiples roles
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
 			name = "usuarios_roles",
 			joinColumns = @JoinColumn(name = "id_usuario", referencedColumnName = "usuario_id"),
@@ -96,7 +96,7 @@ public class Usuarios {
 	
 	
 	//Muchos usuarios pueden estar en múltiples protectoras
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
 			name = "usuarios_protectoras",
 			joinColumns = @JoinColumn(name = "id_usuario", referencedColumnName = "usuario_id"),
