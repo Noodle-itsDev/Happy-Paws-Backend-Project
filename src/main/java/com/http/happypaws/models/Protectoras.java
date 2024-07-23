@@ -236,7 +236,5 @@ public class Protectoras {
 	public void setUsuarios(List<Usuarios> usuarios) {
 		this.usuarios = usuarios;
 	}
-	
-	
-	
+		
 }
