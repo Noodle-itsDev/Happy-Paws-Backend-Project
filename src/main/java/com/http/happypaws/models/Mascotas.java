@@ -7,6 +7,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.FetchType;
 
 @Entity
 @Table(name = "mascotas")
@@ -52,6 +56,28 @@ public class Mascotas {
 	
 	@Column(name ="desparasitacion_externa")
 	private Boolean desparasitacionExterna;
+ 
+ 	@Column(name ="tratamientos")
+	private String tratamientos;
+	
+	@Column(name ="alergias")
+	private String alergias;
+	
+	@Column(name ="socializacion")
+	private String socializacion;
+	
+	@Column(name ="informacion_comportamiento")
+	private String informacionComportamiento;
+	
+	@Column(name ="incidentes")
+	private String incidentes;
+	
+	@Column(name="fecha_defuncion")
+	private Date fechaDefuncion;
+ 
+  // Relacin One-to-Many con Eventos
+  @OneToMany(mappedBy = "mascota", fetch = FetchType.LAZY)
+  private List<Eventos> eventos = new ArrayList<>();
 	
 	public Mascotas() {
 		
@@ -233,41 +259,14 @@ public class Mascotas {
 	public void setFechaDefuncion(Date fechaDefuncion) {
 		this.fechaDefuncion = fechaDefuncion;
 	}
+ 
+  public List<Eventos> getEventos() {
+    return eventos;
+  }
 
-	@Column(name ="tratamientos")
-	private String tratamientos;
-	
-	@Column(name ="alergias")
-	private String alergias;
-	
-	@Column(name ="socializacion")
-	private String socializacion;
-	
-	@Column(name ="informacion_comportamiento")
-	private String informacionComportamiento;
-	
-	@Column(name ="incidentes")
-	private String incidentes;
-	
-	@Column(name="fecha_defuncion")
-	private Date fechaDefuncion;
-	
-	
-	
-	
-	
-	
-	
-	
-	
-		
-	
+  public void setEventos(List<Eventos> eventos) {
+    this.eventos = eventos;
+  }
 
-	
-	
-	
-	
-	
-	
 	
 }

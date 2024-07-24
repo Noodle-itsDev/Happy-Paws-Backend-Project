@@ -13,6 +13,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.OneToMany;
 
 
 @Entity
@@ -82,6 +83,10 @@ public class Usuarios {
 	
 	@Column(name = "is_super_admin")
 	private Boolean isSuperAdmin;
+ 
+  // Relacion One-to-Many con Eventos
+  @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
+  private List<Eventos> eventos = new ArrayList<>();
  
 	
 	//Muchos usuarios pueden estar en múltiples roles
@@ -307,5 +312,13 @@ public class Usuarios {
 	public void setProtectoras(List<Protectoras> protectoras) {
 		this.protectoras = protectoras;
 	}
+ 
+  public List<Eventos> getEventos() {
+    return eventos;
+  }
+
+  public void setEventos(List<Eventos> eventos) {
+    this.eventos = eventos;
+  }
 		
 }

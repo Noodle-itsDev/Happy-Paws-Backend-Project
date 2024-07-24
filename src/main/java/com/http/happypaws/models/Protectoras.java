@@ -10,6 +10,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.FetchType;
 
 
 @Entity
@@ -73,6 +75,10 @@ public class Protectoras {
 	
 	@ManyToMany(mappedBy = "protectoras")
 	private List<Usuarios> usuarios = new ArrayList<>();
+ 
+  // Relacion One-to-Many con Eventos
+  @OneToMany(mappedBy = "protectora", fetch = FetchType.LAZY)
+  private List<Eventos> eventos = new ArrayList<>();
 	
 	public Protectoras() {
 		
@@ -236,5 +242,13 @@ public class Protectoras {
 	public void setUsuarios(List<Usuarios> usuarios) {
 		this.usuarios = usuarios;
 	}
+ 
+     public List<Eventos> getEventos() {
+        return eventos;
+    }
+
+    public void setEventos(List<Eventos> eventos) {
+        this.eventos = eventos;
+    }
 		
 }
