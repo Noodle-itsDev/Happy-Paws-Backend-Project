@@ -82,7 +82,7 @@ public class Usuarios {
 	
 	@Column(name = "is_super_admin")
 	private Boolean isSuperAdmin;
-	
+ 
 	
 	//Muchos usuarios pueden estar en múltiples roles
 	@ManyToMany(fetch = FetchType.EAGER)
@@ -103,6 +103,7 @@ public class Usuarios {
 			inverseJoinColumns = @JoinColumn(name = "id_protectora", referencedColumnName = "protectora_id")
 			
 			)
+      
 	private List<Protectoras> protectoras = new ArrayList<>();
 	
 	
