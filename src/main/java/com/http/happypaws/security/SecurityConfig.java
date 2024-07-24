@@ -54,6 +54,7 @@ public class SecurityConfig {
                 //.requestMatchers("api/protectora/all").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/protectora/create").hasAnyAuthority("Gestor", "Voluntario")
                 .requestMatchers(HttpMethod.GET, "/api/protectora/all").hasAnyAuthority("Gestor", "Voluntario")
+                .requestMatchers(HttpMethod.POST, "/api/eventos/**").hasAnyAuthority("Gestor", "Voluntario")
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic();
