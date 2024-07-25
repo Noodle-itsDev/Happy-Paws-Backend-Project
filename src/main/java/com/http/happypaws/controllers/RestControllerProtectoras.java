@@ -22,12 +22,6 @@ public class RestControllerProtectoras {
     this.protectoraService = protectoraService;
   }
   
-  @GetMapping("/test")
-public ResponseEntity<String> test() {
-    return ResponseEntity.ok("Test OK");
-}
-
-  
   @PostMapping(value = "create", headers = "Accept=application/json")
   public void crearProtectora(@RequestBody Protectoras protectoras){
     protectoraService.crearProtectora(protectoras);

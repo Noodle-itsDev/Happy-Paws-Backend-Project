@@ -12,243 +12,248 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.FetchType;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-//Le indico a esta clase que es una entidad
-
 @Table(name = "protectoras")
-//Indico la tabla a la que hacemos referencia
-
 public class Protectoras {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	
-	@Column(name = "protectora_id")
-	private Long idProtectora;
-	
-	@Column(name ="created_at")
-	private Date createdAt;
-	
-	@Column(name ="updated_at")
-	private Date updatedAt;
-	
-	@Column(name ="deleted_at")
-	private Date deletedAt ;
-	
-	@Column(name ="cif")
-	private String cif;
-	
-	@Column(name ="nombre")
-	private String nombre;
-	
-	@Column(name ="email")
-	private String email;
-	
-	@Column(name ="extension")
-	private int extension;
-	
-	@Column(name ="telefono")
-	private int telefono;
-	
-	@Column(name ="provincia")
-	private String provincia;
-	
-	@Column(name ="poblacion")
-	private String poblacion;
-	
-	@Column(name ="ciudad")
-	private String ciudad;
-	
-	@Column(name ="calle")
-	private String calle;
-	
-	@Column(name ="numero")
-	private String numero;
-	
-	@Column(name ="codigo_postal")
-	private int codigoPostal;
-	
-	@Column(name ="is_verified")
-	private Boolean isVerified;
-	
-	@ManyToMany(mappedBy = "protectoras")
-	private List<Usuarios> usuarios = new ArrayList<>();
- 
-  // Relacion One-to-Many con Eventos
-  @OneToMany(mappedBy = "protectora", fetch = FetchType.LAZY)
-  private List<Eventos> eventos = new ArrayList<>();
-	
-	public Protectoras() {
-		
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "protectora_id")
+    private Long idProtectora;
 
-	public Protectoras(Long idProtectora, Date createdAt, Date updatedAt, Date deletedAt, String cif, String nombre,
-			String email, int extension, int telefono, String provincia, String poblacion, String ciudad, String calle,
-			String numero, int codigoPostal, Boolean isVerified, List<Usuarios> usuarios) {
-		super();
-		this.idProtectora = idProtectora;
-		this.createdAt = createdAt;
-		this.updatedAt = updatedAt;
-		this.deletedAt = deletedAt;
-		this.cif = cif;
-		this.nombre = nombre;
-		this.email = email;
-		this.extension = extension;
-		this.telefono = telefono;
-		this.provincia = provincia;
-		this.poblacion = poblacion;
-		this.ciudad = ciudad;
-		this.calle = calle;
-		this.numero = numero;
-		this.codigoPostal = codigoPostal;
-		this.isVerified = isVerified;
-		this.usuarios = usuarios;
-	}
+    @Column(name ="created_at")
+    private Date createdAt;
 
-	public Long getIdProtectora() {
-		return idProtectora;
-	}
+    @Column(name ="updated_at")
+    private Date updatedAt;
 
-	public void setIdProtectora(Long idProtectora) {
-		this.idProtectora = idProtectora;
-	}
+    @Column(name ="deleted_at")
+    private Date deletedAt;
 
-	public Date getCreatedAt() {
-		return createdAt;
-	}
+    @Column(name ="cif")
+    private String cif;
 
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}
+    @Column(name ="nombre")
+    private String nombre;
 
-	public Date getUpdatedAt() {
-		return updatedAt;
-	}
+    @Column(name ="email")
+    private String email;
 
-	public void setUpdatedAt(Date updatedAt) {
-		this.updatedAt = updatedAt;
-	}
+    @Column(name ="extension")
+    private int extension;
 
-	public Date getDeletedAt() {
-		return deletedAt;
-	}
+    @Column(name ="telefono")
+    private int telefono;
 
-	public void setDeletedAt(Date deletedAt) {
-		this.deletedAt = deletedAt;
-	}
+    @Column(name ="provincia")
+    private String provincia;
 
-	public String getCif() {
-		return cif;
-	}
+    @Column(name ="poblacion") 
+    private String poblacion;
 
-	public void setCif(String cif) {
-		this.cif = cif;
-	}
+    @Column(name ="ciudad")
+    private String ciudad;
 
-	public String getNombre() {
-		return nombre;
-	}
+    @Column(name ="calle")
+    private String calle;
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+    @Column(name ="numero")
+    private String numero;
 
-	public String getEmail() {
-		return email;
-	}
+    @Column(name ="codigo_postal")
+    private int codigoPostal;
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    @Column(name ="is_verified")
+    private int isVerified;
 
-	public int getExtension() {
-		return extension;
-	}
+    @JsonIgnore
+    @ManyToMany(mappedBy = "protectoras")
+    private List<Usuarios> usuarios = new ArrayList<>();
 
-	public void setExtension(int extension) {
-		this.extension = extension;
-	}
+    @JsonIgnore
+    @OneToMany(mappedBy = "protectora", fetch = FetchType.LAZY)
+    private List<Eventos> eventos = new ArrayList<>();
 
-	public int getTelefono() {
-		return telefono;
-	}
+    @JsonIgnore
+    @OneToMany(mappedBy = "protectora", fetch = FetchType.LAZY)
+    private List<Mascotas> mascotas = new ArrayList<>();
 
-	public void setTelefono(int telefono) {
-		this.telefono = telefono;
-	}
+    public Protectoras() {
+    }
 
-	public String getProvincia() {
-		return provincia;
-	}
+    public Protectoras(Long idProtectora, Date createdAt, Date updatedAt, Date deletedAt, String cif, String nombre,
+                       String email, int extension, int telefono, String provincia, String poblacion, String ciudad,
+                       String calle, String numero, int codigoPostal, int isVerified) {
+        this.idProtectora = idProtectora;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.deletedAt = deletedAt;
+        this.cif = cif;
+        this.nombre = nombre;
+        this.email = email;
+        this.extension = extension;
+        this.telefono = telefono;
+        this.provincia = provincia;
+        this.poblacion = poblacion;
+        this.ciudad = ciudad;
+        this.calle = calle;
+        this.numero = numero;
+        this.codigoPostal = codigoPostal;
+        this.isVerified = isVerified;
+    }
 
-	public void setProvincia(String provincia) {
-		this.provincia = provincia;
-	}
+    // Getters y Setters
+    public Long getIdProtectora() {
+        return idProtectora;
+    }
 
-	public String getPoblacion() {
-		return poblacion;
-	}
+    public void setIdProtectora(Long idProtectora) {
+        this.idProtectora = idProtectora;
+    }
 
-	public void setPoblacion(String poblacion) {
-		this.poblacion = poblacion;
-	}
+    public Date getCreatedAt() {
+        return createdAt;
+    }
 
-	public String getCiudad() {
-		return ciudad;
-	}
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
 
-	public void setCiudad(String ciudad) {
-		this.ciudad = ciudad;
-	}
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
 
-	public String getCalle() {
-		return calle;
-	}
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 
-	public void setCalle(String calle) {
-		this.calle = calle;
-	}
+    public Date getDeletedAt() {
+        return deletedAt;
+    }
 
-	public String getNumero() {
-		return numero;
-	}
+    public void setDeletedAt(Date deletedAt) {
+        this.deletedAt = deletedAt;
+    }
 
-	public void setNumero(String numero) {
-		this.numero = numero;
-	}
+    public String getCif() {
+        return cif;
+    }
 
-	public int getCodigoPostal() {
-		return codigoPostal;
-	}
+    public void setCif(String cif) {
+        this.cif = cif;
+    }
 
-	public void setCodigoPostal(int codigoPostal) {
-		this.codigoPostal = codigoPostal;
-	}
+    public String getNombre() {
+        return nombre;
+    }
 
-	public Boolean getIsVerified() {
-		return isVerified;
-	}
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
-	public void setIsVerified(Boolean isVerified) {
-		this.isVerified = isVerified;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public List<Usuarios> getUsuarios() {
-		return usuarios;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public void setUsuarios(List<Usuarios> usuarios) {
-		this.usuarios = usuarios;
-	}
- 
-     public List<Eventos> getEventos() {
+    public int getExtension() {
+        return extension;
+    }
+
+    public void setExtension(int extension) {
+        this.extension = extension;
+    }
+
+    public int getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(int telefono) {
+        this.telefono = telefono;
+    }
+
+    public String getProvincia() {
+        return provincia;
+    }
+
+    public void setProvincia(String provincia) {
+        this.provincia = provincia;
+    }
+
+    public String getPoblacion() {
+        return poblacion;
+    }
+
+    public void setPoblacion(String poblacion) {
+        this.poblacion = poblacion;
+    }
+
+    public String getCiudad() {
+        return ciudad;
+    }
+
+    public void setCiudad(String ciudad) {
+        this.ciudad = ciudad;
+    }
+
+    public String getCalle() {
+        return calle;
+    }
+
+    public void setCalle(String calle) {
+        this.calle = calle;
+    }
+
+    public String getNumero() {
+        return numero;
+    }
+
+    public void setNumero(String numero) {
+        this.numero = numero;
+    }
+
+    public int getCodigoPostal() {
+        return codigoPostal;
+    }
+
+    public void setCodigoPostal(int codigoPostal) {
+        this.codigoPostal = codigoPostal;
+    }
+
+    public int getIsVerified() {
+        return isVerified;
+    }
+
+    public void setIsVerified(int isVerified) {
+        this.isVerified = isVerified;
+    }
+
+    public List<Usuarios> getUsuarios() {
+        return usuarios;
+    }
+
+    public void setUsuarios(List<Usuarios> usuarios) {
+        this.usuarios = usuarios;
+    }
+
+    public List<Eventos> getEventos() {
         return eventos;
     }
 
     public void setEventos(List<Eventos> eventos) {
         this.eventos = eventos;
     }
-		
+
+    public List<Mascotas> getMascotas() {
+        return mascotas;
+    }
+
+    public void setMascotas(List<Mascotas> mascotas) {
+        this.mascotas = mascotas;
+    }
 }

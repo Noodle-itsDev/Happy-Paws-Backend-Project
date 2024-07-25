@@ -9,7 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 //Le indico a esta clase que es una entidad
@@ -29,6 +29,7 @@ public class Roles {
 	@Column(name = "description")
 	private String description;
 	
+  @JsonIgnore
 	@ManyToMany (mappedBy = "roles")
 	private List<Usuarios> usuarios = new ArrayList<>();
 

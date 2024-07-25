@@ -31,11 +31,12 @@ public class EventosService {
 	
 	//Crear eventos
 	public void crearEvento(Eventos evento) {
-		iEventosRepository.save(evento);
-    
-    Optional<Usuarios> usuario = usuarioRepository.findById(evento.getUsuario().getIdUsuario());
+
+    System.out.println("Creating event: " + evento);
+
     Optional<Mascotas> mascota = mascotaRepository.findById(evento.getMascota().getId());
-    Optional<Protectoras> protectora = protectoraRepository.findById(evento.getProtectora().getIdProtectora());
+    Optional<Protectoras> protectora = protectoraRepository.findById(evento.getProtectora().getIdProtectora());    
+    Optional<Usuarios> usuario = usuarioRepository.findById(evento.getUsuario().getIdUsuario());
 
     if (usuario.isPresent() && mascota.isPresent() && protectora.isPresent()) {
       evento.setUsuario(usuario.get());

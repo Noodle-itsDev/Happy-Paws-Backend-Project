@@ -42,6 +42,8 @@ public class RestControllerAuth {
         this.usuariosRepository = usuariosRepository;
         this.jwtGenerator = jwtGenerator;
     }
+    
+    
     //Método para poder registrar usuarios con role "user"
     @PostMapping("register")
     public ResponseEntity<String> registrar(@RequestBody RegisterDTO registerDTO) {
@@ -63,11 +65,12 @@ public class RestControllerAuth {
             usuarios.setTelefono(registerDTO.getTelefono());
             usuarios.setEmail(registerDTO.getEmail());
             usuarios.setProvincia(registerDTO.getProvincia());
-            usuarios.setPoblación(registerDTO.getPoblacion());
+            usuarios.setPoblacion(registerDTO.getPoblacion());
             usuarios.setCiudad(registerDTO.getCiudad());
             usuarios.setCalle(registerDTO.getCalle());
             usuarios.setNumero(registerDTO.getNumero());
             usuarios.setCodigoPostal(registerDTO.getCodigoPostal());
+            usuarios.setIsSuperAdmin(0);
         
     
         Optional<Roles> rolesOptional = rolesRepository.findRoleByName("Voluntario");

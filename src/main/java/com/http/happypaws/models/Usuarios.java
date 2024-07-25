@@ -12,21 +12,16 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
 import jakarta.persistence.OneToMany;
-
+import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-//Le indico a esta clase que es una entidad
-
 @Table(name = "usuarios")
-//Indico a qué tabla corresponde esta entidad
-
 public class Usuarios {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY) 
-	
 	@Column(name = "usuario_id")
 	private Long idUsuario;
 	
@@ -66,8 +61,8 @@ public class Usuarios {
 	@Column(name = "provincia")
 	private String provincia;
 	
-	@Column(name = "población")
-	private String población;
+	@Column(name = "poblacion") 
+	private String poblacion;
 	
 	@Column(name = "ciudad")
 	private String ciudad;
@@ -82,44 +77,38 @@ public class Usuarios {
 	private int codigoPostal;
 	
 	@Column(name = "is_super_admin")
-	private Boolean isSuperAdmin;
+	private int isSuperAdmin;
  
-  // Relacion One-to-Many con Eventos
+  @JsonIgnore
+  @OneToMany(mappedBy = "adoptante", fetch = FetchType.LAZY)
+  private List<Mascotas> mascotas = new ArrayList<>();
+ 
+  @JsonIgnore
   @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
   private List<Eventos> eventos = new ArrayList<>();
  
-	
-	//Muchos usuarios pueden estar en múltiples roles
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
 			name = "usuarios_roles",
 			joinColumns = @JoinColumn(name = "id_usuario", referencedColumnName = "usuario_id"),
 			inverseJoinColumns = @JoinColumn(name = "id_role", referencedColumnName = "role_id")
-			
-			)
+	)
 	private List<Roles> roles = new ArrayList<>();
 	
-	
-	//Muchos usuarios pueden estar en múltiples protectoras
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
 			name = "usuarios_protectoras",
 			joinColumns = @JoinColumn(name = "id_usuario", referencedColumnName = "usuario_id"),
 			inverseJoinColumns = @JoinColumn(name = "id_protectora", referencedColumnName = "protectora_id")
-			
-			)
-      
+	)
 	private List<Protectoras> protectoras = new ArrayList<>();
-	
-	
-	
-	public Usuarios() {};
+		
+	public Usuarios() {}
 
 	public Usuarios(Long idUsuario, String username, String password, Date createdAt, Date updatedAt, Date deletedAt,
 			String nombre, String apellidos, String dni, int extension, int telefono, String email, String provincia,
-			String población, String ciudad, String calle, String numero, int codigoPostal, Boolean isSuperAdmin,
-			List<Roles> roles, List<Protectoras> protectoras) {
-		super();
+			String poblacion, String ciudad, String calle, String numero, int codigoPostal, int isSuperAdmin,
+			List<Roles> roles, List<Protectoras> protectoras, List<Mascotas> mascotas, List<Eventos> eventos) {
 		this.idUsuario = idUsuario;
 		this.username = username;
 		this.password = password;
@@ -133,7 +122,7 @@ public class Usuarios {
 		this.telefono = telefono;
 		this.email = email;
 		this.provincia = provincia;
-		this.población = población;
+		this.poblacion = poblacion;
 		this.ciudad = ciudad;
 		this.calle = calle;
 		this.numero = numero;
@@ -141,10 +130,11 @@ public class Usuarios {
 		this.isSuperAdmin = isSuperAdmin;
 		this.roles = roles;
 		this.protectoras = protectoras;
+		this.mascotas = mascotas;
+		this.eventos = eventos;
 	}
 
-
-
+	// Getters y Setters
 	public Long getIdUsuario() {
 		return idUsuario;
 	}
@@ -249,12 +239,12 @@ public class Usuarios {
 		this.provincia = provincia;
 	}
 
-	public String getPoblación() {
-		return población;
+	public String getPoblacion() {
+		return poblacion;
 	}
 
-	public void setPoblación(String población) {
-		this.población = población;
+	public void setPoblacion(String poblacion) {
+		this.poblacion = poblacion;
 	}
 
 	public String getCiudad() {
@@ -289,11 +279,11 @@ public class Usuarios {
 		this.codigoPostal = codigoPostal;
 	}
 
-	public Boolean getIsSuperAdmin() {
+	public int getIsSuperAdmin() {
 		return isSuperAdmin;
 	}
 
-	public void setIsSuperAdmin(Boolean isSuperAdmin) {
+	public void setIsSuperAdmin(int isSuperAdmin) {
 		this.isSuperAdmin = isSuperAdmin;
 	}
 
@@ -312,13 +302,20 @@ public class Usuarios {
 	public void setProtectoras(List<Protectoras> protectoras) {
 		this.protectoras = protectoras;
 	}
- 
-  public List<Eventos> getEventos() {
-    return eventos;
-  }
 
-  public void setEventos(List<Eventos> eventos) {
-    this.eventos = eventos;
-  }
-		
+	public List<Mascotas> getMascotas() {
+		return mascotas;
+	}
+
+	public void setMascotas(List<Mascotas> mascotas) {
+		this.mascotas = mascotas;
+	}
+
+	public List<Eventos> getEventos() {
+		return eventos;
+	}
+
+	public void setEventos(List<Eventos> eventos) {
+		this.eventos = eventos;
+	}
 }

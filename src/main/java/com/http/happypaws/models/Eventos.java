@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import jakarta.persistence.FetchType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "eventos")
@@ -30,17 +31,14 @@ public class Eventos {
     @Column(name = "finalizado")
     private Boolean finalizado;
 
-    // Relacin Many-to-One con Usuarios
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "usuario_id", referencedColumnName = "usuario_id")
     private Usuarios usuario;
 
-    // Relacin Many-to-One con Protectoras
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "protectora_id", referencedColumnName = "protectora_id")
     private Protectoras protectora;
 
-    // Relacin Many-to-One con Mascotas
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "mascota_id", referencedColumnName = "mascota_id")
     private Mascotas mascota;
