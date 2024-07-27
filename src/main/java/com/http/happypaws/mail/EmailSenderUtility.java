@@ -29,8 +29,11 @@ public class EmailSenderUtility {
 
     @Value("${MAILJET_SUBJECT}")
     private String apiSubject;
+    
+    @Value("${SERVER_ADDRESS}")
+    private String srvAddress;
 
-    public void sendEmail(String recipientEmail, String recipientName) throws MailjetException, MailjetSocketTimeoutException {
+    public void sendEmail(String recipientEmail, String recipientName, Long usuarioId) throws MailjetException, MailjetSocketTimeoutException {
         MailjetClient client = new MailjetClient(apiKeyPublic, apiKeyPrivate, new ClientOptions("v3.1"));
 
         String header = "https://res.cloudinary.com/dg8lfyj4a/image/upload/v1722071924/ckwrcoka6dhscqncgz5u.png";
@@ -49,7 +52,7 @@ public class EmailSenderUtility {
                             .put("Name", recipientName)))
                     .put(Emailv31.Message.SUBJECT, apiSubject)
                     .put(Emailv31.Message.TEXTPART, "")
-                    .put(Emailv31.Message.HTMLPART, "<html><body><div style=''><div><img src='" + header + "' alt='Happy Paws Logo' style='width: 100%; height: 5rem; position:fixed; top: 0;' /></div><div style='text-align: center;'><img src='" + logo + "' style='width: 250px;' /></div><div style='margin: 2rem 20%;'><p style='font-size: large; text-align: center; font-family: system-ui;'>Bienvenido a <span style='color: green;'><b>Happy Paws</b></span> "+ recipientName +", plataforma de <b>adopci&oacute;n de mascotas y gesti&oacute;n de protectoras</b>. Nuestro objetivo principal es colaborar con entidades sin &aacute;nimo de lucro en su gesti&oacute;n diaria.</p><p  style='font-size: large; text-align: center; font-family: system-ui;'>Antes de continuar, <b>activa tu cuenta</b> pulsando en el siguiente bot&oacute;n.</p></div><div style='text-align: center; margin-bottom: 2rem;'><a href='' style='background-color: green; padding: 0.8rem 1.5rem; color: white; text-transform: uppercase; border-radius: 12px;'>Activar</a></div></div><img src='" + footer + "' style='position:fixed; bottom: 0; height: 5rem; width: 100%;'/></body></html>")
+                    .put(Emailv31.Message.HTMLPART, "<html><body><div style=''><div><img src='" + header + "' alt='Happy Paws Logo' style='width: 100%; height: 5rem; position:fixed; top: 0;' /></div><div style='text-align: center;'><img src='" + logo + "' style='width: 250px;' /></div><div style='margin: 2rem 20%;'><p style='font-size: large; text-align: center; font-family: system-ui;'>Bienvenido a <span style='color: green;'><b>Happy Paws</b></span> "+ recipientName +", plataforma de <b>adopci&oacute;n de mascotas y gesti&oacute;n de protectoras</b>. Nuestro objetivo principal es colaborar con entidades sin &aacute;nimo de lucro en su gesti&oacute;n diaria.</p><p  style='font-size: large; text-align: center; font-family: system-ui;'>Antes de continuar, <b>activa tu cuenta</b> pulsando en el siguiente bot&oacute;n.</p></div><div style='text-align: center; margin-bottom: 2rem;'><a href='" + srvAddress +"/api/user/validate/"+ usuarioId  +"' style='background-color: green; padding: 0.8rem 1.5rem; color: white; text-transform: uppercase; border-radius: 12px;'>Activar</a></div></div><img src='" + footer + "' style='position:fixed; bottom: 0; height: 5rem; width: 100%;'/></body></html>")
                     .put(Emailv31.Message.CUSTOMID, "AppGettingStartedTest"))
             );
 

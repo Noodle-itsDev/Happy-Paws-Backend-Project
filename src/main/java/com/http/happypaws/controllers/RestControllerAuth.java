@@ -1,6 +1,7 @@
 package com.http.happypaws.controllers;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
+import com.http.happypaws.services.UsuariosService;
 import com.http.happypaws.dtos.AuthResponseDTO;
 import com.http.happypaws.dtos.LoginDTO;
 import com.http.happypaws.dtos.RegisterDTO;
@@ -19,11 +20,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.Optional;
 import java.util.Collections;
+import org.springframework.web.bind.annotation.PathVariable;
+
 
 @RestController
 @RequestMapping("/api/auth/")
@@ -75,16 +79,15 @@ public class RestControllerAuth {
             usuarios.setNumero(registerDTO.getNumero());
             usuarios.setCodigoPostal(registerDTO.getCodigoPostal());
             usuarios.setIsSuperAdmin(0);
-            usuarios.setIsVerified(false);
         
     
         Optional<Roles> rolesOptional = rolesRepository.findRoleByName("Voluntario");
         if (rolesOptional.isPresent()) {
             usuarios.setRoles(Collections.singletonList(rolesOptional.get()));
-            usuariosRepository.save(usuarios);
+            Usuarios savedUser = usuariosRepository.save(usuarios);
             
             try {
-                emailSenderUtility.sendEmail(usuarios.getEmail(), usuarios.getNombre());
+                emailSenderUtility.sendEmail(usuarios.getEmail(), usuarios.getNombre(), savedUser.getIdUsuario());
             } catch (Exception e) {
                 e.printStackTrace();
                 return new ResponseEntity<>("Registro exitoso, pero no se pudo enviar el correo de confirmación", HttpStatus.OK);
@@ -130,6 +133,6 @@ public class RestControllerAuth {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
     }
-
+    
 
 }

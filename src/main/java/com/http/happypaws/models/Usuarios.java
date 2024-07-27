@@ -80,7 +80,7 @@ public class Usuarios {
 	private int isSuperAdmin;
  
   @Column(name = "is_verified")
-  private boolean isVerified;
+  private boolean isVerified = false;
  
   @JsonIgnore
   @OneToMany(mappedBy = "adoptante", fetch = FetchType.LAZY)

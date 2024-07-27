@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.http.happypaws.models.Usuarios;
 
 @Repository
-
 public interface IUsuariosRepository extends JpaRepository<Usuarios, Long>{
 	
 	//Se crea una custom function para encontrar por el nombre de usuario a un usuario :).

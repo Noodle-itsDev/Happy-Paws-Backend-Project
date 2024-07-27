@@ -52,6 +52,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
                 .requestMatchers("api/auth/**").permitAll()
                 //.requestMatchers("api/protectora/all").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/user/validate/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/protectora/**").hasAnyAuthority("Gestor", "Voluntario")
                 .requestMatchers(HttpMethod.GET, "/api/protectora/**").hasAnyAuthority("Gestor", "Voluntario")
                 .requestMatchers(HttpMethod.POST, "/api/eventos/**").hasAnyAuthority("Gestor", "Voluntario")
