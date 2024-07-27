@@ -79,6 +79,9 @@ public class Usuarios {
 	@Column(name = "is_super_admin")
 	private int isSuperAdmin;
  
+  @Column(name = "is_verified")
+  private boolean isVerified;
+ 
   @JsonIgnore
   @OneToMany(mappedBy = "adoptante", fetch = FetchType.LAZY)
   private List<Mascotas> mascotas = new ArrayList<>();
@@ -107,7 +110,7 @@ public class Usuarios {
 
 	public Usuarios(Long idUsuario, String username, String password, Date createdAt, Date updatedAt, Date deletedAt,
 			String nombre, String apellidos, String dni, int extension, int telefono, String email, String provincia,
-			String poblacion, String ciudad, String calle, String numero, int codigoPostal, int isSuperAdmin,
+			String poblacion, String ciudad, String calle, String numero, int codigoPostal, int isSuperAdmin, Boolean isVerified,
 			List<Roles> roles, List<Protectoras> protectoras, List<Mascotas> mascotas, List<Eventos> eventos) {
 		this.idUsuario = idUsuario;
 		this.username = username;
@@ -132,6 +135,7 @@ public class Usuarios {
 		this.protectoras = protectoras;
 		this.mascotas = mascotas;
 		this.eventos = eventos;
+    this.isVerified = isVerified;
 	}
 
 	// Getters y Setters
@@ -286,6 +290,14 @@ public class Usuarios {
 	public void setIsSuperAdmin(int isSuperAdmin) {
 		this.isSuperAdmin = isSuperAdmin;
 	}
+ 
+  public boolean getIsVerified() {
+    return isVerified;
+  }
+
+  public void setIsVerified(boolean isVerified) {
+    this.isVerified = isVerified;
+  }
 
 	public List<Roles> getRoles() {
 		return roles;

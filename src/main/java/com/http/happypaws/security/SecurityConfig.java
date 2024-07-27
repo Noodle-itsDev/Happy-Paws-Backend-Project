@@ -58,6 +58,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/api/eventos/**").hasAnyAuthority("Gestor", "Voluntario")
                 .requestMatchers(HttpMethod.POST, "/api/mascota/**").hasAnyAuthority("Gestor", "Voluntario")
                 .requestMatchers(HttpMethod.GET, "/api/mascota/**").hasAnyAuthority("Gestor", "Voluntario")
+                .requestMatchers(HttpMethod.POST, "/api/mail/**").hasAnyAuthority("Gestor", "Voluntario")
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic();

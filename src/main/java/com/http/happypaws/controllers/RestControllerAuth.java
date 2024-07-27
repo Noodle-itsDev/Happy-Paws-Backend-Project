@@ -12,6 +12,7 @@ import com.http.happypaws.security.JwtGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import com.http.happypaws.mail.EmailSenderUtility;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -28,19 +29,22 @@ import java.util.Collections;
 @RequestMapping("/api/auth/")
 @CrossOrigin(origins = "*", maxAge = 3600)
 public class RestControllerAuth {
+
     private AuthenticationManager authenticationManager;
     private PasswordEncoder passwordEncoder;
     private IRolesRepository rolesRepository;
     private IUsuariosRepository usuariosRepository;
     private JwtGenerator jwtGenerator;
+    private EmailSenderUtility emailSenderUtility;
 
     @Autowired
-    public RestControllerAuth(AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder, IRolesRepository rolesRepository, IUsuariosRepository usuariosRepository, JwtGenerator jwtGenerator) {
+    public RestControllerAuth(AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder, IRolesRepository rolesRepository, IUsuariosRepository usuariosRepository, JwtGenerator jwtGenerator, EmailSenderUtility emailSenderUtility) {
         this.authenticationManager = authenticationManager;
         this.passwordEncoder = passwordEncoder;
         this.rolesRepository = rolesRepository;
         this.usuariosRepository = usuariosRepository;
         this.jwtGenerator = jwtGenerator;
+        this.emailSenderUtility = emailSenderUtility;
     }
     
     
@@ -71,12 +75,20 @@ public class RestControllerAuth {
             usuarios.setNumero(registerDTO.getNumero());
             usuarios.setCodigoPostal(registerDTO.getCodigoPostal());
             usuarios.setIsSuperAdmin(0);
+            usuarios.setIsVerified(false);
         
     
         Optional<Roles> rolesOptional = rolesRepository.findRoleByName("Voluntario");
         if (rolesOptional.isPresent()) {
             usuarios.setRoles(Collections.singletonList(rolesOptional.get()));
             usuariosRepository.save(usuarios);
+            
+            try {
+                emailSenderUtility.sendEmail(usuarios.getEmail(), usuarios.getNombre());
+            } catch (Exception e) {
+                e.printStackTrace();
+                return new ResponseEntity<>("Registro exitoso, pero no se pudo enviar el correo de confirmación", HttpStatus.OK);
+            }
             return new ResponseEntity<>("Registro de usuario exitoso", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("No se encontró el rol de usuario", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -99,14 +111,24 @@ public class RestControllerAuth {
         return new ResponseEntity<>("Registro de admin exitoso", HttpStatus.OK);
     }
 
-    //Método para poder logear un usuario y obtener un token
     @PostMapping("login")
     public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginDTO dtoLogin) {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                dtoLogin.getUsername(), dtoLogin.getPassword()));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = jwtGenerator.generateToken(authentication);
-        return new ResponseEntity<>(new AuthResponseDTO(token), HttpStatus.OK);
+        try {
+            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                    dtoLogin.getUsername(), dtoLogin.getPassword()));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            String token = jwtGenerator.generateToken(authentication);
+
+            // Obtener el usuario autenticado
+            String username = dtoLogin.getUsername();
+            Usuarios usuario = usuariosRepository.findByUsername(username)
+                    .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+            return new ResponseEntity<>(new AuthResponseDTO(token, usuario), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
     }
 
 
