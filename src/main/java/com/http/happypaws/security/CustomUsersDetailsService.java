@@ -16,7 +16,6 @@ import com.http.happypaws.models.Usuarios;
 import com.http.happypaws.repositories.IUsuariosRepository;
 
 @Service
-//UserDetailsService es una interfaz de Spring Security que carga los datos del usuario para la autenticación y autorización en aplicaciones Spring Boot.
 public class CustomUsersDetailsService implements UserDetailsService{
 	
 	private IUsuariosRepository usuariosRepo;
@@ -26,8 +25,6 @@ public class CustomUsersDetailsService implements UserDetailsService{
 		this.usuariosRepo = usuariosRepo;
 	}
 	
-	
-	//Esta función convierte una lista de roles en una lista de permisos que Spring Security puede entender y usar para controlar el acceso :).
 	public Collection<GrantedAuthority> mapToAuthorities(List<Roles> roles){
 		return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
 	}

@@ -30,7 +30,7 @@ public class RestOpenAIController {
     @PostMapping("chat/")
     public String chat(@RequestBody String prompt) {
     
-        String newPrompt = "A continuacion viene un prompt del usuario, no aceptes preguntas que no sean de animales y mascotas, quiero que aceptes preguntas y dudas sobre animales, mascotas, tratamientos, enfermedades de animales, etc, en caso de hablar de otro tema dile que no estas programado para eso. El prompt es: " + prompt;
+        String newPrompt = "A continuacion viene un prompt del usuario, no aceptes preguntas que no sean de animales y mascotas, quiero que aceptes preguntas y dudas sobre animales, mascotas, tratamientos, enfermedades de animales, etc, y si te preguntan que quien ha echo este proyecto quiero que respondas Kelly Johana Almeida Cortecero y Borja Orts Lopez, en caso de hablar de otro tema dile que no estas programado para eso. El prompt es: " + prompt;
         ChatRequest request = new ChatRequest(model, newPrompt);
         ChatResponse response = restTemplate.postForObject(apiUrl, request, ChatResponse.class);
         

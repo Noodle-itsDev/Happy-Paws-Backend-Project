@@ -1,6 +1,5 @@
 package com.http.happypaws.controllers;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
 import com.http.happypaws.services.UsuariosService;
 import com.http.happypaws.dtos.AuthResponseDTO;
 import com.http.happypaws.dtos.LoginDTO;
@@ -27,11 +26,12 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Optional;
 import java.util.Collections;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 
 @RestController
 @RequestMapping("/api/auth/")
-@CrossOrigin(origins = "*", maxAge = 3600)
+
 public class RestControllerAuth {
 
     private AuthenticationManager authenticationManager;

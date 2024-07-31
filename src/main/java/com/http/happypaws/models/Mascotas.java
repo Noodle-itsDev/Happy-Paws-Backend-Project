@@ -18,105 +18,82 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table(name = "mascotas")
 public class Mascotas {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name ="mascota_id")
     private Long id;
-    
+
     @Column(name ="nombre")
     private String nombre;
 
     @Column(name ="especie")
     private String especie;
-    
+
     @Column(name ="raza")
     private String raza;
-    
+
     @Column(name ="genero")
     private String genero;
-    
+
     @Column(name ="edad")
     private int edad;
-    
+
     @Column(name ="chip")
     private Boolean chip;
 
     @Column(name ="numero_chip")
     private String numeroChip;
-    
+
     @Column(name ="estado")
     private String estado;
-    
+
     @Column(name ="vacunado")
     private Boolean vacunado;
-    
+
     @Column(name="esterilizacion")
     private Boolean esterilizacion;
-    
+
     @Column(name ="desparasitacion_interna")
     private Boolean desparasitacionInterna;
-    
+
     @Column(name ="desparasitacion_externa")
     private Boolean desparasitacionExterna;
- 
+
     @Column(name ="tratamientos")
     private String tratamientos;
-    
+
     @Column(name ="alergias")
     private String alergias;
-    
+
     @Column(name ="socializacion")
     private String socializacion;
-    
+
     @Column(name ="informacion_comportamiento")
     private String informacionComportamiento;
-    
+
     @Column(name ="incidentes")
     private String incidentes;
-    
+
     @Column(name="fecha_defuncion")
     private Date fechaDefuncion;
- 
+
+    @Column(name="imagen")
+    private String imagen;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "protectora_id")
     private Protectoras protectora;
- 
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="usuario_id")
     private Usuarios adoptante;
- 
+
     @JsonIgnore
     @OneToMany(mappedBy = "mascota", fetch = FetchType.LAZY)
     private List<Eventos> eventos = new ArrayList<>();
-    
-    public Mascotas() {
-    }
-    
-    public Mascotas(Long id, String nombre, String especie, String raza, String genero, int edad, Boolean chip,
-            String numeroChip, String estado, Boolean vacunado, Boolean esterilizacion, Boolean desparasitacionInterna,
-            Boolean desparasitacionExterna, String tratamientos, String alergias, String socializacion,
-            String informacionComportamiento, String incidentes, Date fechaDefuncion) {
-        this.id = id;
-        this.nombre = nombre;
-        this.especie = especie;
-        this.raza = raza;
-        this.genero = genero;
-        this.edad = edad;
-        this.chip = chip;
-        this.numeroChip = numeroChip;
-        this.estado = estado;
-        this.vacunado = vacunado;
-        this.esterilizacion = esterilizacion;
-        this.desparasitacionInterna = desparasitacionInterna;
-        this.desparasitacionExterna = desparasitacionExterna;
-        this.tratamientos = tratamientos;
-        this.alergias = alergias;
-        this.socializacion = socializacion;
-        this.informacionComportamiento = informacionComportamiento;
-        this.incidentes = incidentes;
-        this.fechaDefuncion = fechaDefuncion;
-    }
+
+    // Constructores, getters y setters
 
     // Getters y Setters
     public Long getId() {
@@ -269,6 +246,14 @@ public class Mascotas {
 
     public void setFechaDefuncion(Date fechaDefuncion) {
         this.fechaDefuncion = fechaDefuncion;
+    }
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
     }
 
     public Protectoras getProtectora() {

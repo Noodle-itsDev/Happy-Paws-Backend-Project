@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 @RestController
 @RequestMapping("/api/user")
-@CrossOrigin(origins = "*", maxAge = 3600)
 public class RestControllerUsuarios {
 
     @Autowired
