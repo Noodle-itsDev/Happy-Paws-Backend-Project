@@ -10,6 +10,7 @@ import com.http.happypaws.repositories.IEventosRepository;
 import com.http.happypaws.repositories.IProtectorasRepository;
 import com.http.happypaws.repositories.IUsuariosRepository;
 import com.http.happypaws.repositories.IMascotasRepository;
+import com.http.happypaws.models.Usuarios;
 
 @Service
 public class EventosService {
@@ -67,6 +68,12 @@ public class EventosService {
 	public void deleteEvento(Long id) {
 		iEventosRepository.deleteById(id);
 	}
-	
+ 
+    public List<Eventos> obtenerEventosPorUsuarioId(Long usuarioId) {
+        Usuarios usuario = usuarioRepository.findById(usuarioId)
+                .orElseThrow(() -> new NoSuchElementException("Usuario no encontrado"));
+        return iEventosRepository.findByUsuario(usuario);
+    }
+
 	
 }

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.http.ResponseEntity;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/api/eventos/")
@@ -46,5 +47,10 @@ public class RestControllerEventos {
   public void deleteEvento(@PathVariable Long id){
     eventosService.deleteEvento(id);
   }
+  
+    @GetMapping("/usuario/{usuarioId}")
+    public List<Eventos> obtenerEventosPorUsuario(@PathVariable Long usuarioId) {
+        return eventosService.obtenerEventosPorUsuarioId(usuarioId);
+    }
   
 }

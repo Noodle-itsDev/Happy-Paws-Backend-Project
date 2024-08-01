@@ -81,6 +81,7 @@ public class Mascotas {
     @Column(name="imagen")
     private String imagen;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "protectora_id")
     private Protectoras protectora;
