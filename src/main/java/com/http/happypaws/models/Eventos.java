@@ -30,30 +30,48 @@ public class Eventos {
 
     @Column(name = "finalizado")
     private Boolean finalizado;
+    
+    @Column(name="tipo_evento")
+    private String tipoEvento;
+    
+    @Column(name="estado")
+    private String estado;
+    
+    @Column(name="observacion")
+    private String observacion;
+    
+    @Column(name="asistido")
+    private String asistido;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "usuario_id", referencedColumnName = "usuario_id")
     private Usuarios usuario;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "protectora_id", referencedColumnName = "protectora_id")
     private Protectoras protectora;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "mascota_id", referencedColumnName = "mascota_id")
     private Mascotas mascota;
 
     public Eventos() {}
 
-    public Eventos(String nombreEvento, String descripcion, Date fechaInicio, Date fechaFin, Boolean finalizado, Usuarios usuario, Protectoras protectora, Mascotas mascota) {
+    public Eventos(String nombreEvento, String descripcion, Date fechaInicio, Date fechaFin, Boolean finalizado, String tipoEvento, String estado, String observacion, String asistido ,Usuarios usuario, Protectoras protectora, Mascotas mascota) {
         this.nombreEvento = nombreEvento;
         this.descripcion = descripcion;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.finalizado = finalizado;
+        this.tipoEvento = tipoEvento;
+        this.estado = estado;
+        this.observacion = observacion;
         this.usuario = usuario;
         this.protectora = protectora;
         this.mascota = mascota;
+        this.asistido = asistido;
     }
 
     // Getters y Setters
@@ -103,6 +121,38 @@ public class Eventos {
 
     public void setFinalizado(Boolean finalizado) {
         this.finalizado = finalizado;
+    }
+    
+    public String getTipoEvento(){
+        return tipoEvento;
+    }
+    
+    public void setTipoEvento(String tipoEvento){
+        this.tipoEvento = tipoEvento;
+    }
+    
+    public String getEstado(){
+        return estado;
+    }
+    
+    public void setEstado(String estado){
+        this.estado = estado;
+    }
+    
+    public String getObservacion(){
+        return observacion;
+    }
+    
+    public void setObservacion(String observacion){
+        this.observacion = observacion;
+    }
+    
+    public String getAsistido(){
+        return asistido;
+    }
+    
+    public void setAsistido(String asistido){
+        this.asistido = asistido;
     }
 
     public Usuarios getUsuario() {

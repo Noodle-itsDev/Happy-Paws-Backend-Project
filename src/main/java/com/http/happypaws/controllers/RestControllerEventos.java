@@ -48,9 +48,19 @@ public class RestControllerEventos {
     eventosService.deleteEvento(id);
   }
   
-    @GetMapping("/usuario/{usuarioId}")
-    public List<Eventos> obtenerEventosPorUsuario(@PathVariable Long usuarioId) {
-        return eventosService.obtenerEventosPorUsuarioId(usuarioId);
-    }
+  @PutMapping(value="/disable/{id}", headers = "Accept=application/json")
+  public void disableEventoById(@PathVariable Long id){
+    eventosService.deshabilitarEventoById(id);
+  }
+  
+	@GetMapping("/usuario/{usuarioId}")
+	public ResponseEntity<List<Eventos>> obtenerEventosPorUsuario(@PathVariable Long usuarioId) {
+		try {
+			List<Eventos> eventos = eventosService.obtenerEventosPorUsuarioId(usuarioId);
+			return ResponseEntity.ok(eventos);
+		} catch (NoSuchElementException e) {
+			return ResponseEntity.notFound().build();
+		}
+	}
   
 }

@@ -69,11 +69,31 @@ public class EventosService {
 		iEventosRepository.deleteById(id);
 	}
  
-    public List<Eventos> obtenerEventosPorUsuarioId(Long usuarioId) {
-        Usuarios usuario = usuarioRepository.findById(usuarioId)
-                .orElseThrow(() -> new NoSuchElementException("Usuario no encontrado"));
-        return iEventosRepository.findByUsuario(usuario);
-    }
+  // Eliminacion logica
+  public void deshabilitarEventoById(Long id) {
+      Optional<Eventos> eventoOptional = iEventosRepository.findById(id);
+      if (eventoOptional.isPresent()) {
+          Eventos evento = eventoOptional.get();
+          evento.setEstado("Inactivo");
+          iEventosRepository.save(evento);
+      } else {
+          throw new NoSuchElementException("Evento no encontrado");
+      }
+  }
+
+ 
+	public List<Eventos> obtenerEventosPorUsuarioId(Long usuarioId) {
+		Usuarios usuario = usuarioRepository.findById(usuarioId)
+				.orElseThrow(() -> new NoSuchElementException("Usuario no encontrado"));
+		List<Eventos> eventos = iEventosRepository.findByUsuario(usuario);
+
+		// Establecer el usuario en cada evento
+		for (Eventos evento : eventos) {
+			evento.setUsuario(usuario);
+		}
+
+		return eventos;
+	}
 
 	
 }

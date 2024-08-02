@@ -4,7 +4,7 @@ import com.http.happypaws.models.Usuarios;
 import com.http.happypaws.repositories.IUsuariosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -15,6 +15,10 @@ public class UsuariosService {
 
     public Optional<Usuarios> findByUsername(String username) {
         return usuariosRepository.findByUsername(username);
+    }
+    
+    public List<Usuarios> findAllUsers(){
+        return usuariosRepository.findAll();
     }
 
     public boolean existsByUsername(String username) {

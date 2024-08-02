@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/user")
@@ -23,5 +24,10 @@ public class RestControllerUsuarios {
         return usuariosService.updateValidate(id)
                 .map(usuario -> new ResponseEntity<>(usuario, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+    
+    @GetMapping("/all")
+    public List<Usuarios> findAllUsers(){
+      return usuariosService.findAllUsers();
     }
 }
