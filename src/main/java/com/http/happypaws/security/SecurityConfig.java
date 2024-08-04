@@ -54,6 +54,7 @@ public class SecurityConfig {
                 .requestMatchers("api/user/edit/**").permitAll()
                 .requestMatchers("api/user/**").permitAll()
                 .requestMatchers("api/another/donation").permitAll()
+                .requestMatchers("api/another/send/adoptation").permitAll()
                 //.requestMatchers("api/protectora/all").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/user/validate/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/openai/**").hasAnyAuthority("Gestor", "Voluntario")
