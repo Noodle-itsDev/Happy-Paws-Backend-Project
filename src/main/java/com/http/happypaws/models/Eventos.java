@@ -47,12 +47,10 @@ public class Eventos {
     @JoinColumn(name = "usuario_id", referencedColumnName = "usuario_id")
     private Usuarios usuario;
 
-    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "protectora_id", referencedColumnName = "protectora_id")
     private Protectoras protectora;
 
-    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "mascota_id", referencedColumnName = "mascota_id")
     private Mascotas mascota;
@@ -178,4 +176,24 @@ public class Eventos {
     public void setMascota(Mascotas mascota) {
         this.mascota = mascota;
     }
+    
+    @Override
+    public String toString() {
+        return "Eventos{" +
+                "eventoId=" + eventoId +
+                ", nombreEvento='" + nombreEvento + '\'' +
+                ", descripcion='" + descripcion + '\'' +
+                ", fechaInicio=" + fechaInicio +
+                ", fechaFin=" + fechaFin +
+                ", finalizado=" + finalizado +
+                ", tipoEvento='" + tipoEvento + '\'' +
+                ", estado='" + estado + '\'' +
+                ", observacion='" + observacion + '\'' +
+                ", asistido='" + asistido + '\'' +
+                ", usuario=" + usuario +
+                ", protectora=" + protectora +
+                ", mascota=" + mascota +
+                '}';
+}
+
 }

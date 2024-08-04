@@ -73,11 +73,11 @@ public class Protectoras {
     private List<Usuarios> usuarios = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "protectora", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "protectora")
     private List<Eventos> eventos = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "protectora", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "protectora")
     private List<Mascotas> mascotas = new ArrayList<>();
 
     public Protectoras() {

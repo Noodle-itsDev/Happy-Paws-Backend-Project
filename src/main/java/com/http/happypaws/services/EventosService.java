@@ -11,6 +11,9 @@ import com.http.happypaws.repositories.IProtectorasRepository;
 import com.http.happypaws.repositories.IUsuariosRepository;
 import com.http.happypaws.repositories.IMascotasRepository;
 import com.http.happypaws.models.Usuarios;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.sql.Date;
 
 @Service
 public class EventosService {
@@ -30,24 +33,54 @@ public class EventosService {
 		this.iEventosRepository = iEventosRepository;
 	}
 	
-	//Crear eventos
-	public void crearEvento(Eventos evento) {
-
+public void crearEvento(Eventos evento) {
     System.out.println("Creating event: " + evento);
 
-    Optional<Mascotas> mascota = mascotaRepository.findById(evento.getMascota().getId());
-    Optional<Protectoras> protectora = protectoraRepository.findById(evento.getProtectora().getIdProtectora());    
-    Optional<Usuarios> usuario = usuarioRepository.findById(evento.getUsuario().getIdUsuario());
+    if (evento.getUsuario() != null && evento.getUsuario().getIdUsuario() != null) {
+        Long usuarioId = evento.getUsuario().getIdUsuario();
+        Optional<Usuarios> usuario = usuarioRepository.findById(usuarioId);
 
-    if (usuario.isPresent() && mascota.isPresent() && protectora.isPresent()) {
-      evento.setUsuario(usuario.get());
-      evento.setMascota(mascota.get());
-      evento.setProtectora(protectora.get());
-      iEventosRepository.save(evento);
+        if (usuario.isPresent()) {
+            evento.setUsuario(usuario.get());
+            System.out.println("Usuario encontrado: " + usuario.get());
+
+            if (evento.getMascota() != null && evento.getMascota().getId() != null) {
+                Optional<Mascotas> mascota = mascotaRepository.findById(evento.getMascota().getId());
+                if (mascota.isPresent()) {
+                    evento.setMascota(mascota.get());
+                } else {
+                    System.out.println("Mascota no encontrada: " + evento.getMascota().getId());
+                }
+            }
+
+            if (evento.getProtectora() != null && evento.getProtectora().getIdProtectora() != null) {
+                Optional<Protectoras> protectora = protectoraRepository.findById(evento.getProtectora().getIdProtectora());
+                if (protectora.isPresent()) {
+                    evento.setProtectora(protectora.get());
+                } else {
+                    System.out.println("Protectora no encontrada: " + evento.getProtectora().getIdProtectora());
+                }
+            }
+
+            // Establecer estado por defecto si no se proporciona
+            if (evento.getEstado() == null) {
+                evento.setEstado("Activo");
+            }
+
+            // Establecer tipoEvento si no se proporciona
+            if (evento.getTipoEvento() == null) {
+                evento.setTipoEvento(evento.getNombreEvento());
+            }
+
+            iEventosRepository.save(evento);
+        } else {
+            throw new NoSuchElementException("Usuario no encontrado.");
+        }
     } else {
-      throw new NoSuchElementException("Usuario, Mascota o Protectora no encontrados.");
+        throw new IllegalArgumentException("Usuario no proporcionado.");
     }
-	}
+}
+
 	
 	//Obtener eventos
 	public List<Eventos> obtenerEventos(){
