@@ -2,6 +2,7 @@ package com.http.happypaws.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import com.http.happypaws.mail.SendContactMailUtility;
 import com.http.happypaws.mail.SendAportacionUtility;
 import com.http.happypaws.mail.SendAdopcion;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -17,6 +18,9 @@ public class AnotherController {
     
     @Autowired
     private SendAdopcion sendAdopcion;
+    
+    @Autowired
+    private SendContactMailUtility sendContactMailUtility;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -38,5 +42,15 @@ public class AnotherController {
         String imagen = jsonNode.get("imagen").asText();
         String telefono = jsonNode.get("telefono").asText();
         sendAdopcion.sendEmail(nombreUsuario, nombreMascota, email, imagen, telefono);
+    }
+    
+    @PostMapping(value = "/send/contact")
+    public void sendContactMailUtility(@RequestBody String body) throws Exception {
+        JsonNode jsonNode = objectMapper.readTree(body);
+        String nombre = jsonNode.get("nombre").asText();
+        String correo = jsonNode.get("correo").asText();
+        String telefono = jsonNode.get("telefono").asText();
+        String mensaje = jsonNode.get("mensaje").asText();
+        sendContactMailUtility.sendContactMail(nombre, correo, telefono, mensaje);
     }
 }

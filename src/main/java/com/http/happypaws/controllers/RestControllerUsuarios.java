@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.web.servlet.view.RedirectView;
 
 @RestController
 @RequestMapping("/api/user")
@@ -30,10 +31,19 @@ public class RestControllerUsuarios {
     }
     
     @GetMapping("/validate/{id}")
-    public ResponseEntity<Usuarios> actualizarIsValidated(@PathVariable Long id) {
+    public RedirectView actualizarIsValidated(@PathVariable Long id) {
         return usuariosService.updateValidate(id)
-                .map(usuario -> new ResponseEntity<>(usuario, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+                .map(usuario -> {
+                    RedirectView redirectView = new RedirectView();
+                    redirectView.setUrl("http://127.0.0.1:3000/signup");
+                    return redirectView;
+                })
+                .orElseGet(() -> {
+                    RedirectView redirectView = new RedirectView();
+                    redirectView.setUrl("http://127.0.0.1:3000/signup");
+                    redirectView.setStatusCode(HttpStatus.NOT_FOUND);
+                    return redirectView;
+                });
     }
     
     @GetMapping("/all")

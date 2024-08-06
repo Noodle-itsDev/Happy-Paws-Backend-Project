@@ -13,9 +13,12 @@ import jakarta.persistence.Table;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.FetchType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "protectoras")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+
 public class Protectoras {
 
     @Id

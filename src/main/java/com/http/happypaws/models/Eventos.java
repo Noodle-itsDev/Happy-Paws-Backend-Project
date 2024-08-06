@@ -6,9 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 import jakarta.persistence.FetchType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "eventos")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Eventos {
 
     @Id
